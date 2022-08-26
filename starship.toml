@@ -1,0 +1,11 @@
+# エディターの補完を設定スキーマに合わせて取得
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# シェルのプロンプトの間に空行を挿入する
+add_newline = true
+
+# 記号"❯"を記号"➜"に置き換える
+[character] # 編集するモジュールの名前は"character"
+
+[package]
+disabled = false
