@@ -94,15 +94,18 @@ vim.keymap.set('n', 'th', 'gT', { silent = true })
 
 -- color config
 vim.o.termguicolors = true
-vim.g.tokyonight_style = "storm"
-vim.g.tokyonight_transparent_sidebar = true
-vim.g.tokyonight_transparent = true
-vim.g.tokyonight_lualine_bold = true
+require("tokyonight").setup({
+  style = "storm",
+  transparent = true,
+  styles = {
+    sidebars = "transparent",
+    floats = "transparent",
+  },
+})
 vim.cmd[[colorscheme tokyonight]]
 -- vim.cmd[[colorscheme kanagawa]]
 -- vim.cmd[[colorscheme molokai]]
 -- vim.cmd[[colorscheme nightfox]]
-vim.highlight.create('LineNr', {ctermbg=0, guifg='lime', guibg=0}, false)
 
 -- Icon/Sign Settings
 for type, icon in pairs({Error = " ", Warn = " ", Hint = " ", Info = " "}) do
@@ -333,8 +336,8 @@ require("trouble").setup {
   padding = false,
   height = 6,
   icons = true,
-  -- auto_open = true, -- automatically open the list when you have diagnostics
-  -- auto_close = true, -- automatically close the list when you have no diagnostics
+  auto_open = true, -- automatically open the list when you have diagnostics
+  auto_close = true, -- automatically close the list when you have no diagnostics
 }
 
 -- sniprun config
