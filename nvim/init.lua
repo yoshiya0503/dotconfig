@@ -1,6 +1,6 @@
 -- @title nvim/init.vim
 -- @author Yoshiya Ito
--- @version 7.0.0
+-- @version 8.0.0
 
 -- packer config
 vim.cmd[[packadd packer.nvim]]
