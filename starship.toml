@@ -4,6 +4,9 @@
 # シェルのプロンプトの間に空行を挿入する
 add_newline = true
 
+# timeout
+command_timeout = 10000
+
 # 記号"❯"を記号"➜"に置き換える
 [character] # 編集するモジュールの名前は"character"
 
