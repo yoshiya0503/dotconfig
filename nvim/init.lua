@@ -275,7 +275,6 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = {
     enable = true,
-    disable = {"python"},
   },
 }
 
@@ -306,6 +305,7 @@ require'nvim-tree'.setup {
 -- lualine config
 require('lualine').setup {
   options = {
+    theme = 'tokyonight',
     section_separators = { left = "", right = "" },
     component_separators = { left = "", right = "" },
   },
@@ -333,8 +333,8 @@ require("trouble").setup {
   padding = false,
   height = 6,
   icons = true,
-  auto_open = true, -- automatically open the list when you have diagnostics
-  auto_close = true, -- automatically close the list when you have no diagnostics
+  -- auto_open = true, -- automatically open the list when you have diagnostics
+  -- auto_close = true, -- automatically close the list when you have no diagnostics
 }
 
 -- sniprun config
