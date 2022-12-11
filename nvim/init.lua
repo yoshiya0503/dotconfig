@@ -23,8 +23,9 @@ require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end, } -- syntax hilight
   use { 'kyazdani42/nvim-web-devicons' } -- icon
   use { 'kyazdani42/nvim-tree.lua' } -- filer
-  use { 'rcarriga/nvim-notify' } -- notification
+  use { 'rcarriga/nvim-notify', requires = {{"MunifTanjim/nui.nvim"}} } -- notification
   use { 'folke/trouble.nvim' } -- trouble shooting
+  use({ "folke/noice.nvim" }) -- message and cmd
   use { 'michaelb/sniprun', run = 'bash install.sh' } -- quick code run
   use { 'nvim-lualine/lualine.nvim' } -- status line
   use { 'nvim-telescope/telescope.nvim', tag='0.1.0', requires = {{'nvim-lua/plenary.nvim'}} } -- fuzzy omni search
@@ -275,6 +276,7 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = {
     enable = true,
+    disable = {"python"},
   },
 }
 
@@ -336,6 +338,7 @@ require("trouble").setup {
   -- auto_open = true, -- automatically open the list when you have diagnostics
   -- auto_close = true, -- automatically close the list when you have no diagnostics
 }
+
 
 -- sniprun config
 vim.keymap.set("v", "f", "<plug>SnipRun<cr>", { silent = true })
