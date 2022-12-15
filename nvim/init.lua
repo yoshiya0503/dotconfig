@@ -207,7 +207,7 @@ vim.keymap.set("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true
 vim.keymap.set("n", "gs", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
 vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-vim.keymap.set("n", "<C-O>", "<cmd>LSoutlineToggle<CR>" , { silent = true})
+vim.keymap.set("n", "<C-O>", "<cmd>Lspsaga outline<CR>" , { silent = true})
 
 -- completion config / comp, luanip, lspkind
 local cmp = require 'cmp'
