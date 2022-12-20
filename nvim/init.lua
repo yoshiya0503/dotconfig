@@ -141,7 +141,7 @@ local on_attach = function(client, bufnr)
     end,
   })
   -- lspsagaのcode outline初回起動
-  -- vim.api.nvim_exec("LSoutline", false)
+  vim.api.nvim_exec("Lspsaga outline", false)
 end
 
 -- mason
