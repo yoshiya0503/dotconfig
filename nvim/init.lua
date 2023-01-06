@@ -141,7 +141,7 @@ local on_attach = function(client, bufnr)
     end,
   })
   -- lspsagaのcode outline初回起動
-  vim.api.nvim_exec("Lspsaga outline", false)
+  -- vim.api.nvim_exec("Lspsaga outline", false)
 end
 
 -- mason
@@ -190,15 +190,15 @@ end })
 
 -- lspsaga config
 require 'lspsaga'.init_lsp_saga({
-    max_preview_lines = 50,
-    finder_action_keys = {
-        vsplit = "v",
-        split = "s",
-    },
-    show_outline = {
-        auto_enter = false,
-        win_width = 20,
-    }
+  max_preview_lines = 50,
+  finder_action_keys = {
+    vsplit = "v",
+    split = "s",
+  },
+  show_outline = {
+    auto_enter = false,
+    win_width = 20,
+  }
 })
 vim.keymap.set("n", "cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
 vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
