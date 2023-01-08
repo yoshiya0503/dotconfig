@@ -189,7 +189,7 @@ end })
 -- })
 
 -- lspsaga config
-require 'lspsaga'.init_lsp_saga({
+require 'lspsaga'.setup({
   max_preview_lines = 50,
   finder_action_keys = {
     vsplit = "v",
