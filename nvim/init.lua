@@ -284,10 +284,7 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- nvim-tree config
-vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { silent = true })
 require'nvim-tree'.setup {
-  open_on_setup = true,
-  open_on_setup_file = true,
   open_on_tab = true,
   renderer = {
     highlight_opened_files = "all",
@@ -306,6 +303,11 @@ require'nvim-tree'.setup {
     },
   },
 }
+local function open_nvim_tree()
+  require("nvim-tree.api").tree.toggle({ focus = false })
+end
+vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { silent = true })
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 -- lualine config
 require('lualine').setup {
