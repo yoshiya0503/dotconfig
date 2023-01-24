@@ -58,6 +58,7 @@ vim.o.showmatch = true    -- show ()[]{}match
 vim.o.smartcase = true    -- search smart case
 vim.wo.wrap = false       -- nowrap
 vim.o.foldenable = false
+vim.opt.mouse = ""
 vim.opt.clipboard:append{'unnamedplus'} -- clipboad
 vim.opt.fillchars = {     -- vert sign
   vert = " ",
