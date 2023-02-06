@@ -207,7 +207,7 @@ require 'lspsaga'.setup({
 })
 vim.keymap.set("n", "cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
 vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
-vim.keymap.set("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
+vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 vim.keymap.set("n", "gs", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
 vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
