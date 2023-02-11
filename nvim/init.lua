@@ -202,7 +202,7 @@ require 'lspsaga'.setup({
   },
   ui = {
     border = 'rounded',
-    winblend = 5,
+    winblend = 0,
   }
 })
 vim.keymap.set("n", "cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
