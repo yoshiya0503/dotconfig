@@ -1,0 +1,16 @@
+{
+    "__meta__": {
+        "about": "HTTPie session file",
+        "help": "https://httpie.io/docs#sessions",
+        "httpie": "3.0.2"
+    },
+    "auth": {
+        "password": null,
+        "type": null,
+        "username": null
+    },
+    "cookies": {},
+    "headers": {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6IjYyMGU2MmU4ODgyMWYxNDk0NjgwMjM0NCJ9.KsKrPCclvo4AMLubuO9ASlyXJpvarsiIysq5nAT6e6I"
+    }
+}
