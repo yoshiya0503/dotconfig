@@ -373,3 +373,4 @@ require("indent_blankline").setup {
 -- vim-go and prettier
 vim.g['prettier#autoformat'] = 1
 vim.g['prettier#autoformat_require_pragma'] = 0
+vim.g['prettier#config#print_width'] = 120
