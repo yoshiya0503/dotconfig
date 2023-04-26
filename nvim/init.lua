@@ -284,7 +284,6 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = {
     enable = true,
-    disable = {"python"},
   },
 }
 
@@ -295,7 +294,7 @@ end
 vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { silent = true })
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
-local function on_attach()
+local function on_attach(bufnr)
   local api = require('nvim-tree.api')
 
   local function opts(desc)
@@ -305,10 +304,10 @@ local function on_attach()
   vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
   vim.keymap.set('n', 'o', api.node.open.horizontal, opts('Open: Horizontal Split'))
   vim.keymap.set('n', 'u', api.tree.change_root_to_parent, opts('Up'))
-  vim.keymap.set('n', 's', '', opts('Run System'))
   vim.keymap.set('n', '<C-s>', api.node.run.system, opts('Run System'))
   vim.keymap.set('n', '<CR>',  api.node.open.edit, opts('Open'))
-
+  vim.keymap.set('n', 's', '', { buffer = bufnr })
+  vim.keymap.del('n', 's', { buffer = bufnr })
 end
 
 require'nvim-tree'.setup {
