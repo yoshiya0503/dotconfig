@@ -193,13 +193,15 @@ end })
 -- lspsaga config
 require 'lspsaga'.setup({
   max_preview_lines = 50,
-  finder_action_keys = {
-    vsplit = "v",
-    split = "s",
+  finder = {
+    keys = {
+      vsplit = 'v',
+      split = 's',
+    },
   },
-  show_outline = {
-    auto_enter = false,
-    win_width = 20,
+  outline = {
+    win_position = "right",
+    win_width = 30,
   },
   ui = {
     border = 'rounded',
@@ -287,30 +289,39 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- nvim-tree config
-require'nvim-tree'.setup {
-  open_on_tab = true,
-  renderer = {
-    highlight_opened_files = "all",
-  },
-  view = {
-    width = 20,
-    side = "left",
-    mappings = {
-      list = {
-        { key = "v", action = "vsplit" },
-        { key = "o", action = "split" },
-        { key = "<c-s>", action = "system_open" },
-        { key = "u", action = "dir_up" },
-        { key = "s", action = "" },
-      },
-    },
-  },
-}
 local function open_nvim_tree()
   require("nvim-tree.api").tree.toggle({ focus = false })
 end
 vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { silent = true })
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+
+local function on_attach()
+  local api = require('nvim-tree.api')
+
+  local function opts(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
+  vim.keymap.set('n', 'o', api.node.open.horizontal, opts('Open: Horizontal Split'))
+  vim.keymap.set('n', 'u', api.tree.change_root_to_parent, opts('Up'))
+  vim.keymap.set('n', 's', '', opts('Run System'))
+  vim.keymap.set('n', '<C-s>', api.node.run.system, opts('Run System'))
+  vim.keymap.set('n', '<CR>',  api.node.open.edit, opts('Open'))
+
+end
+
+require'nvim-tree'.setup {
+  open_on_tab = true,
+  renderer = {
+    highlight_opened_files = "all",
+  },
+  on_attach = on_attach,
+  view = {
+    width = 20,
+    side = "left",
+  },
+}
 
 -- lualine config
 require('lualine').setup {
