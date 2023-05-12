@@ -308,6 +308,7 @@ local function on_attach(bufnr)
   vim.keymap.set('n', '<CR>',  api.node.open.edit, opts('Open'))
   vim.keymap.set('n', 's', '', { buffer = bufnr })
   vim.keymap.del('n', 's', { buffer = bufnr })
+  vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
 end
 
 require'nvim-tree'.setup {
