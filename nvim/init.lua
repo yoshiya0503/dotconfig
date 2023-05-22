@@ -301,6 +301,8 @@ local function on_attach(bufnr)
     return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
 
+  api.config.mappings.default_on_attach(bufnr)
+
   vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
   vim.keymap.set('n', 'o', api.node.open.horizontal, opts('Open: Horizontal Split'))
   vim.keymap.set('n', 'u', api.tree.change_root_to_parent, opts('Up'))
@@ -308,7 +310,6 @@ local function on_attach(bufnr)
   vim.keymap.set('n', '<CR>',  api.node.open.edit, opts('Open'))
   vim.keymap.set('n', 's', '', { buffer = bufnr })
   vim.keymap.del('n', 's', { buffer = bufnr })
-  vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
 end
 
 require'nvim-tree'.setup {
