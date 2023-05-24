@@ -102,9 +102,6 @@ require("tokyonight").setup({
   },
 })
 vim.cmd[[colorscheme tokyonight]]
--- vim.cmd[[colorscheme kanagawa]]
--- vim.cmd[[colorscheme molokai]]
--- vim.cmd[[colorscheme nightfox]]
 
 -- Icon/Sign Settings
 for type, icon in pairs({Error = " ", Warn = " ", Hint = " ", Info = " "}) do
@@ -359,6 +356,25 @@ require("trouble").setup {
   -- auto_close = true, -- automatically close the list when you have no diagnostics
 }
 
+-- noice config
+require("noice").setup({
+  lsp = {
+    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    override = {
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+      ["vim.lsp.util.stylize_markdown"] = true,
+      ["cmp.entry.get_documentation"] = true,
+    },
+  },
+  -- you can enable a preset for easier configuration
+  presets = {
+    -- bottom_search = true, -- use a classic bottom cmdline for search
+    command_palette = true, -- position the cmdline and popupmenu together
+    long_message_to_split = true, -- long messages will be sent to a split
+    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+    lsp_doc_border = false, -- add a border to hover docs and signature help
+  },
+})
 
 -- sniprun config
 vim.keymap.set("v", "f", "<plug>SnipRun<cr>", { silent = true })
