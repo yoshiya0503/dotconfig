@@ -358,6 +358,12 @@ require("trouble").setup {
 
 -- noice config
 require("noice").setup({
+  cmdline = {
+    format = {
+      search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
+      search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
+    }
+  },
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     progress = {
