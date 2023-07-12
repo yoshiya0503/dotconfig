@@ -100,6 +100,11 @@ require("tokyonight").setup({
     sidebars = "transparent",
     -- floats = "transparent",
   },
+  on_highlights = function(hl, colors)
+    hl.CursorLine = {
+      fg = colors.yellow
+    }
+  end
 })
 vim.cmd[[colorscheme tokyonight]]
 
