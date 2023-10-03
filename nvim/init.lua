@@ -9,7 +9,6 @@ require('packer').startup(function(use)
   use { 'neovim/nvim-lspconfig' } -- LSP
   use { 'williamboman/mason.nvim' } -- LSP package manager
   use { 'williamboman/mason-lspconfig.nvim' } -- LSP config bridge
-  use { 'jose-elias-alvarez/null-ls.nvim' } -- LSP improve
   use { 'glepnir/lspsaga.nvim', branch = 'main' } -- LSP UI/Code outline
   use { 'hrsh7th/nvim-cmp' } -- completion LSP
   use { 'hrsh7th/cmp-nvim-lsp' } -- completion LSP source
@@ -167,30 +166,6 @@ require('mason-lspconfig').setup_handlers({function(server_name)
     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
 end })
-
--- null-ls config
--- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
--- require("null-ls").setup({
---     sources = {
---         require("null-ls").builtins.formatting.stylua,
---         require("null-ls").builtins.diagnostics.eslint,
---         require("null-ls").builtins.completion.spell,
---         require("null-ls").builtins.formatting.gofumpt,
---         require("null-ls").builtins.formatting.goimports,
---     },
---     on_attach = function(client, bufnr)
---         if client.supports_method("textDocument/formatting") then
---             vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
---             vim.api.nvim_create_autocmd("BufWritePre", {
---                 group = augroup,
---                 buffer = bufnr,
---                 callback = function()
---                    vim.lsp.buf.formatting_sync()
---                 end,
---             })
---         end
---     end,
--- })
 
 -- lspsaga config
 require 'lspsaga'.setup({
@@ -409,10 +384,7 @@ require('telescope').setup{}
 -- utitily config
 -- color code visible, indent visible
 require'colorizer'.setup()
-require("indent_blankline").setup {
-  show_current_context = true,
-  show_current_context_start = true,
-}
+require("ibl").setup()
 
 -- vim-go and prettier
 vim.g['prettier#autoformat'] = 1
