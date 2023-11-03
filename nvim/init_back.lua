@@ -1,77 +1,65 @@
 -- @title nvim/init.vim
 -- @author Yoshiya Ito
--- @version 10.0.0
+-- @version 9.0.0
 
--- lazy config
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
-require("lazy").setup({ { "neovim/nvim-lspconfig" },                                     -- LSP
-  { "williamboman/mason.nvim" },                                                         -- LSP package manager
-  { "williamboman/mason-lspconfig.nvim" },                                               -- LSP config bridge
-  { "glepnir/lspsaga.nvim" },                                                            -- LSP UI/Code outline
-  { "hrsh7th/nvim-cmp" },                                                                -- completion LSP
-  { "hrsh7th/cmp-nvim-lsp" },                                                            -- completion LSP source
-  { "hrsh7th/cmp-buffer" },                                                              -- completion LSP file buffer
-  { "hrsh7th/cmp-path" },                                                                -- completion LSP file path
-  { "hrsh7th/cmp-cmdline" },                                                             -- completion LSP vim command
-  { "onsails/lspkind.nvim" },                                                            -- completion with Icon
-  { "L3MON4D3/LuaSnip" },                                                                -- code snippet
-  { "saadparwaiz1/cmp_luasnip" },                                                        -- code snippet to cmp
-  { "rafamadriz/friendly-snippets" },                                                    -- snippet set
-  { "nvim-treesitter/nvim-treesitter",  build = ":TSUpdate" },                           -- syntax hilight
-  { "kyazdani42/nvim-web-devicons" },                                                    -- icon
-  { "kyazdani42/nvim-tree.lua" },                                                        -- filer
-  { "rcarriga/nvim-notify",             dependencies = { { "MunifTanjim/nui.nvim" } } }, -- notification
-  { "folke/trouble.nvim" },                                                              -- trouble shooting
-  { "folke/noice.nvim" },                                                                -- message and cmd
-  { "michaelb/sniprun",                 build = "sh install.sh" },                       -- quick code run
-  { "nvim-lualine/lualine.nvim" },                                                       -- status line
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.4",
-    dependencies = {
-      { "nvim-lua/plenary.nvim" } }
-  },                                                                                               -- fuzzy omni search
-  { "lukas-reineke/indent-blankline.nvim" },                                                       -- show indent
-  { "norcalli/nvim-colorizer.lua" },                                                               -- color code visibility
-  { "editorconfig/editorconfig-vim" },                                                             -- editor config
-  { "prettier/vim-prettier",              build = "yarn install --frozen-lockfile --production" }, -- ts code formatter
-  { "folke/tokyonight.nvim" },                                                                     -- colorscheme
-})
+-- packer config
+vim.cmd[[packadd packer.nvim]]
+require("packer").startup(function(use)
+  use { "wbthomason/packer.nvim" } -- package manager
+  use { "neovim/nvim-lspconfig" } -- LSP
+  use { "williamboman/mason.nvim" } -- LSP package manager
+  use { "williamboman/mason-lspconfig.nvim" } -- LSP config bridge
+  use { "glepnir/lspsaga.nvim", branch = "main" } -- LSP UI/Code outline
+  use { "hrsh7th/nvim-cmp" } -- completion LSP
+  use { "hrsh7th/cmp-nvim-lsp" } -- completion LSP source
+  use { "hrsh7th/cmp-buffer" } -- completion LSP file buffer
+  use { "hrsh7th/cmp-path" } -- completion LSP file path
+  use { "hrsh7th/cmp-cmdline" } -- completion LSP vim command
+  use { "onsails/lspkind.nvim" } -- completion with Icon
+  use { "L3MON4D3/LuaSnip" } -- code snippet
+  use { "saadparwaiz1/cmp_luasnip" } -- code snippet to cmp
+  use { "rafamadriz/friendly-snippets" } -- snippet set
+  use { "nvim-treesitter/nvim-treesitter", run = function() require("nvim-treesitter.install").update({ with_sync = true }) end, } -- syntax hilight
+  use { "kyazdani42/nvim-web-devicons" } -- icon
+  use { "kyazdani42/nvim-tree.lua" } -- filer
+  use { "rcarriga/nvim-notify", requires = {{"MunifTanjim/nui.nvim"}} } -- notification
+  use { "folke/trouble.nvim" } -- trouble shooting
+  use({ "folke/noice.nvim" }) -- message and cmd
+  use { "michaelb/sniprun", run = "bash install.sh" } -- quick code run
+  use { "nvim-lualine/lualine.nvim" } -- status line
+  use { "nvim-telescope/telescope.nvim", tag="0.1.0", requires = {{"nvim-lua/plenary.nvim"}} } -- fuzzy omni search
+  use { "lukas-reineke/indent-blankline.nvim" } -- show indent
+  use { "norcalli/nvim-colorizer.lua" } -- color code visibility
+  use { "editorconfig/editorconfig-vim" } -- editor config
+  use { "prettier/vim-prettier", run = "yarn install --frozen-lockfile --production" } -- ts code formatter
+  use { "EdenEast/nightfox.nvim" } -- color_schema
+  use { "rebelot/kanagawa.nvim" } -- color_scheme
+  use { "folke/tokyonight.nvim", branch= "main" } -- colorscheme
+  -- Plug "fatih/vim-go", { "for": "go", "do": ":GoInstallBinaries" } " go
+end)
 
 -- vim grobal config
-vim.o.title = true        -- show title
+vim.o.title = true -- show title
 -- vim.o.number = true -- show number
 vim.o.writebackup = false -- nobackup
-vim.o.swapfile = false    -- noswapfile
-vim.o.display = "uhex"    -- show hex
-vim.o.signcolumn = "yes"  --signcolumn
-vim.o.expandtab = true    -- tab to space
-vim.o.smarttab = true     -- smarttab
+vim.o.swapfile = false -- noswapfile
+vim.o.display = "uhex"  -- show hex
+vim.o.signcolumn = "yes" --signcolumn
+vim.o.expandtab = true -- tab to space
+vim.o.smarttab = true -- smarttab
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
-vim.o.cindent = true     -- c interigent indent
-vim.o.autoindent = true  -- autoindent !neovim default
-vim.o.smartindent = true -- smart indent system
-vim.o.showmatch = true   -- show ()[]{}match
-vim.o.smartcase = true   -- search smart case
-vim.wo.wrap = false      -- nowrap
+vim.o.cindent = true      -- c interigent indent
+vim.o.autoindent = true   -- autoindent !neovim default
+vim.o.smartindent = true  -- smart indent system
+vim.o.showmatch = true    -- show ()[]{}match
+vim.o.smartcase = true    -- search smart case
+vim.wo.wrap = false       -- nowrap
 vim.o.foldenable = false
 vim.opt.mouse = ""
-vim.opt.clipboard:append { "unnamedplus" } -- clipboad
-vim.opt.fillchars = {                      -- vert sign
+vim.opt.clipboard:append{"unnamedplus"} -- clipboad
+vim.opt.fillchars = {     -- vert sign
   vert = " ",
   eob = " ",
 }
@@ -83,19 +71,19 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 -- key remap
-vim.keymap.set("i", "jj", "<esc>", { silent = true })
-vim.keymap.set("n", "s", "<Nop>", { silent = true })
-vim.keymap.set("n", "ss", ":<C-u>sp<CR>", { silent = true })
-vim.keymap.set("n", "sv", ":<C-u>vs<CR>", { silent = true })
-vim.keymap.set("n", "sq", ":<C-u>q<CR>", { silent = true })
-vim.keymap.set("n", "sj", "<C-w>j", { silent = true })
-vim.keymap.set("n", "sk", "<C-w>k", { silent = true })
-vim.keymap.set("n", "sl", "<C-w>l", { silent = true })
-vim.keymap.set("n", "sh", "<C-w>h", { silent = true })
-vim.keymap.set("n", "sJ", "<C-w>J", { silent = true })
-vim.keymap.set("n", "sK", "<C-w>K", { silent = true })
-vim.keymap.set("n", "sL", "<C-w>L", { silent = true })
-vim.keymap.set("n", "sH", "<C-w>H", { silent = true })
+vim.keymap.set("i", "jj", "<esc>", { silent = true})
+vim.keymap.set("n", "s", "<Nop>", { silent = true})
+vim.keymap.set("n", "ss", ":<C-u>sp<CR>", { silent = true})
+vim.keymap.set("n", "sv", ":<C-u>vs<CR>", { silent = true})
+vim.keymap.set("n", "sq", ":<C-u>q<CR>", { silent = true})
+vim.keymap.set("n", "sj", "<C-w>j", { silent = true})
+vim.keymap.set("n", "sk", "<C-w>k",{ silent = true})
+vim.keymap.set("n", "sl", "<C-w>l", { silent = true})
+vim.keymap.set("n", "sh", "<C-w>h", { silent = true})
+vim.keymap.set("n", "sJ", "<C-w>J", { silent = true})
+vim.keymap.set("n", "sK", "<C-w>K", { silent = true})
+vim.keymap.set("n", "sL", "<C-w>L", { silent = true})
+vim.keymap.set("n", "sH", "<C-w>H", { silent = true})
 
 -- tab keymap
 vim.keymap.set("n", "tt", ":<C-u>tabnew<CR><C-u>NvimTreeOpen<CR>", { silent = true })
@@ -117,10 +105,10 @@ require("tokyonight").setup({
     }
   end
 })
-vim.cmd [[colorscheme tokyonight]]
+vim.cmd[[colorscheme tokyonight]]
 
 -- Icon/Sign Settings
-for type, icon in pairs({ Error = " ", Warn = " ", Hint = " ", Info = " " }) do
+for type, icon in pairs({Error = " ", Warn = " ", Hint = " ", Info = " "}) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
@@ -134,7 +122,7 @@ local on_attach = function(client, bufnr)
     pattern = { "*" },
     callback = function()
       local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
-      params.context = { only = { "source.organizeImports" } }
+      params.context = {only = {"source.organizeImports"}}
 
       local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 100)
       for _, res in pairs(result or {}) do
@@ -165,15 +153,10 @@ require("mason").setup({
 })
 
 -- mason lsp config
-require("mason-lspconfig").setup_handlers({ function(server_name)
+require("mason-lspconfig").setup_handlers({function(server_name)
   require("lspconfig")[server_name].setup {
     on_attach = on_attach,
-    capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    settings = {
-      Lua = {
-        diagnostics = { globals = { 'vim' } }
-      }
-    }
+    capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
 end })
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
@@ -203,7 +186,7 @@ vim.keymap.set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>", { silent = tr
 vim.keymap.set("n", "gs", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
 vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-vim.keymap.set("n", "<C-O>", "<cmd>Lspsaga outline<CR>", { silent = true })
+vim.keymap.set("n", "<C-O>", "<cmd>Lspsaga outline<CR>" , { silent = true})
 
 -- completion config / comp, luanip, lspkind
 local cmp = require "cmp"
@@ -266,7 +249,7 @@ cmp.setup.cmdline("/", {
 require("nvim-treesitter.configs").setup {
   highlight = {
     enable = true,
-    disable = { "html", "css" },
+    disable = {"html", "css"},
   },
   indent = {
     enable = true,
@@ -293,7 +276,7 @@ local function on_attach(bufnr)
   vim.keymap.set("n", "o", api.node.open.horizontal, opts("Open: Horizontal Split"))
   vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
   vim.keymap.set("n", "<C-s>", api.node.run.system, opts("Run System"))
-  vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
+  vim.keymap.set("n", "<CR>",  api.node.open.edit, opts("Open"))
   vim.keymap.set("n", "s", "", { buffer = bufnr })
   vim.keymap.del("n", "s", { buffer = bufnr })
 end
@@ -314,8 +297,7 @@ require("nvim-tree").setup {
 require("lualine").setup {
   sections = {
     lualine_c = {
-      {
-        "filename",
+      {"filename",
         symbols = {
           readonly = "[]"
         }
@@ -356,19 +338,19 @@ require("noice").setup({
   -- you can enable a preset for easier configuration
   presets = {
     -- bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = true,       -- position the cmdline and popupmenu together
+    command_palette = true, -- position the cmdline and popupmenu together
     long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false,       -- add a border to hover docs and signature help
+    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+    lsp_doc_border = false, -- add a border to hover docs and signature help
   },
 })
 
 -- sniprun config
-require("sniprun").setup({ display = { "NvimNotify" }, })
+require("sniprun").setup({ display = {"NvimNotify"}, })
 vim.keymap.set("v", "f", "<plug>SnipRun<cr>", { silent = true })
 
 -- telescope config
-require("telescope").setup {}
+require("telescope").setup{}
 vim.keymap.set("n", "ff", "<cmd>Telescope find_files<cr>", { silent = true })
 vim.keymap.set("n", "fg", "<cmd>Telescope live_grep<cr>", { silent = true })
 vim.keymap.set("n", "fb", "<cmd>Telescope buffers<cr>", { silent = true })

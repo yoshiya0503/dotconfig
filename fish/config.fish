@@ -18,6 +18,7 @@ if status is-interactive
 
   eval pyenv init --path | source
   eval rbenv init - | source
+  #eval /opt/homebrew/share/google-cloud-sdk/path.fish.inc | source
 
   set -x PATH $HOME/.poetry/bin $PATH
   set fish_greeting
