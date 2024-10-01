@@ -16,65 +16,57 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { "neovim/nvim-lspconfig" },                                     -- LSP
-  { "williamboman/mason.nvim" },                                                         -- LSP package manager
-  { "williamboman/mason-lspconfig.nvim" },                                               -- LSP config bridge
-  { "glepnir/lspsaga.nvim" },                                                            -- LSP UI/Code outline
-  { "hrsh7th/nvim-cmp" },                                                                -- completion LSP
-  { "hrsh7th/cmp-nvim-lsp" },                                                            -- completion LSP source
-  { "hrsh7th/cmp-buffer" },                                                              -- completion LSP file buffer
-  { "hrsh7th/cmp-path" },                                                                -- completion LSP file path
-  { "hrsh7th/cmp-cmdline" },                                                             -- completion LSP vim command
-  { "onsails/lspkind.nvim" },                                                            -- completion with Icon
-  { "L3MON4D3/LuaSnip" },                                                                -- code snippet
-  { "saadparwaiz1/cmp_luasnip" },                                                        -- code snippet to cmp
-  { "rafamadriz/friendly-snippets" },                                                    -- snippet set
-  { "nvim-treesitter/nvim-treesitter",  build = ":TSUpdate" },                           -- syntax hilight
-  { "kyazdani42/nvim-web-devicons" },                                                    -- icon
-  { "kyazdani42/nvim-tree.lua" },                                                        -- filer
-  { "rcarriga/nvim-notify",             dependencies = { { "MunifTanjim/nui.nvim" } } }, -- notification
-  { "folke/trouble.nvim" },                                                              -- trouble shooting
-  { "folke/noice.nvim" },                                                                -- message and cmd
-  { "michaelb/sniprun",                 build = "sh install.sh" },                       -- quick code run
-  { "nvim-lualine/lualine.nvim" },                                                       -- status line
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.4",
-    dependencies = {
-      { "nvim-lua/plenary.nvim" } }
-  },                                                                                               -- fuzzy omni search
-  { "lukas-reineke/indent-blankline.nvim" },                                                       -- show indent
-  { "norcalli/nvim-colorizer.lua" },                                                               -- color code visibility
-  { "editorconfig/editorconfig-vim" },                                                             -- editor config
-  { "prettier/vim-prettier",              build = "yarn install --frozen-lockfile --production" }, -- ts code formatter
-  { "folke/tokyonight.nvim" },                                                                     -- colorscheme
+require("lazy").setup({ { "neovim/nvim-lspconfig" },                                        -- LSP
+  { "williamboman/mason.nvim" },                                                            -- LSP package manager
+  { "williamboman/mason-lspconfig.nvim" },                                                  -- LSP config bridge
+  { "glepnir/lspsaga.nvim" },                                                               -- LSP UI/Code outline
+  { "hrsh7th/nvim-cmp" },                                                                   -- completion LSP
+  { "hrsh7th/cmp-nvim-lsp" },                                                               -- completion LSP source
+  { "hrsh7th/cmp-buffer" },                                                                 -- completion LSP file buffer
+  { "hrsh7th/cmp-path" },                                                                   -- completion LSP file path
+  { "hrsh7th/cmp-cmdline" },                                                                -- completion LSP vim command
+  { "onsails/lspkind.nvim" },                                                               -- completion with Icon
+  { "L3MON4D3/LuaSnip" },                                                                   -- code snippet
+  { "saadparwaiz1/cmp_luasnip" },                                                           -- code snippet to cmp
+  { "rafamadriz/friendly-snippets" },                                                       -- snippet set
+  { "nvim-treesitter/nvim-treesitter",    build = ":TSUpdate" },                            -- syntax hilight
+  { "kyazdani42/nvim-web-devicons" },                                                       -- icon
+  { "kyazdani42/nvim-tree.lua" },                                                           -- filer
+  { 'akinsho/bufferline.nvim' },                                                            -- tab buffer integration
+  { "rcarriga/nvim-notify",               dependencies = { { "MunifTanjim/nui.nvim" } } },  -- notification
+  { "folke/trouble.nvim" },                                                                 -- trouble shooting
+  { "folke/noice.nvim" },                                                                   -- message and cmd
+  { "michaelb/sniprun",                   build = "sh install.sh" },                        -- quick code run
+  { "nvim-lualine/lualine.nvim" },                                                          -- status line
+  { "nvim-telescope/telescope.nvim",      dependencies = { { "nvim-lua/plenary.nvim" } } }, -- fuzzy omni search
+  { "lukas-reineke/indent-blankline.nvim" },                                                -- show indent
+  { "norcalli/nvim-colorizer.lua" },                                                        -- color code visibility
+  { "editorconfig/editorconfig-vim" },                                                      -- editor config
+  { "folke/tokyonight.nvim" },                                                              -- colorscheme
 })
 
 -- vim grobal config
-vim.o.title = true        -- show title
--- vim.o.number = true -- show number
-vim.o.writebackup = false -- nobackup
-vim.o.swapfile = false    -- noswapfile
-vim.o.display = "uhex"    -- show hex
-vim.o.signcolumn = "yes"  --signcolumn
-vim.o.expandtab = true    -- tab to space
-vim.o.smarttab = true     -- smarttab
+vim.o.termguicolors = true
+vim.o.signcolumn = "yes" -- signcolumn
+vim.o.expandtab = true   -- tab to space
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
-vim.o.cindent = true     -- c interigent indent
-vim.o.autoindent = true  -- autoindent !neovim default
-vim.o.smartindent = true -- smart indent system
-vim.o.showmatch = true   -- show ()[]{}match
-vim.o.smartcase = true   -- search smart case
-vim.wo.wrap = false      -- nowrap
-vim.o.foldenable = false
-vim.opt.mouse = ""
-vim.opt.clipboard:append { "unnamedplus" } -- clipboad
-vim.opt.fillchars = {                      -- vert sign
-  vert = " ",
-  eob = " ",
-}
+vim.o.cindent = true                           -- c interigent indent
+vim.o.smartindent = true                       -- smart indent system
+vim.o.showmatch = true                         -- show ()[]{}match
+vim.o.smartcase = true                         -- search smart case
+vim.opt.fillchars = { vert = " ", eob = " ", } -- vert sign
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+    },
+  },
+})
 
 -- remove traling white space
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -103,13 +95,12 @@ vim.keymap.set("n", "tl", "gt", { silent = true })
 vim.keymap.set("n", "th", "gT", { silent = true })
 
 -- color config
-vim.o.termguicolors = true
 require("tokyonight").setup({
   style = "storm",
   transparent = true,
   styles = {
     sidebars = "transparent",
-    -- floats = "transparent",
+    floats = "transparent",
   },
   on_highlights = function(hl, colors)
     hl.CursorLine = {
@@ -119,38 +110,26 @@ require("tokyonight").setup({
 })
 vim.cmd [[colorscheme tokyonight]]
 
--- Icon/Sign Settings
-for type, icon in pairs({ Error = " ", Warn = " ", Hint = " ", Info = " " }) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
 -- callback
-local on_attach = function(client, bufnr)
-  local opts = { noremap = true, silent = true, buffer = bufnr }
+-- vim.api.nvim_create_autocmd({ "BufWritePre", "LspAttach" }, {
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function(args)
+    vim.lsp.buf.format()
+    local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
+    params.context = { only = { "source.organizeImports" } }
 
-  -- auto import (go)
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*" },
-    callback = function()
-      local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
-      params.context = { only = { "source.organizeImports" } }
-
-      local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 100)
-      for _, res in pairs(result or {}) do
-        for _, r in pairs(res.result or {}) do
-          if r.edit then
-            vim.lsp.util.apply_workspace_edit(r.edit, vim.lsp.util._get_offset_encoding())
-          else
-            vim.lsp.buf.execute_command(r.command)
-          end
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 100)
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit, vim.lsp.util._get_offset_encoding())
+        else
+          vim.lsp.buf.execute_command(r.command)
         end
       end
-    end,
-  })
-  -- lspsagaのcode outline初回起動
-  -- vim.api.nvim_exec("Lspsaga outline", false)
-end
+    end
+  end,
+})
 
 -- mason
 require("mason").setup({
@@ -167,16 +146,12 @@ require("mason").setup({
 -- mason lsp config
 require("mason-lspconfig").setup_handlers({ function(server_name)
   require("lspconfig")[server_name].setup {
-    on_attach = on_attach,
     capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
     settings = {
-      Lua = {
-        diagnostics = { globals = { 'vim' } }
-      }
+      Lua = { diagnostics = { globals = { 'vim' } } }
     }
   }
 end })
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- lspsaga config
 require("lspsaga").setup({
@@ -198,11 +173,14 @@ require("lspsaga").setup({
 })
 vim.keymap.set("n", "cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
 vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
-vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
+-- vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { silent = true })
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { silent = true })
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, { silent = true })
 vim.keymap.set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>", { silent = true })
 vim.keymap.set("n", "gs", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
-vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
-vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+-- vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
+-- vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
 vim.keymap.set("n", "<C-O>", "<cmd>Lspsaga outline<CR>", { silent = true })
 
 -- completion config / comp, luanip, lspkind
@@ -310,6 +288,13 @@ require("nvim-tree").setup {
   },
 }
 
+-- buffer line
+require("bufferline").setup {
+  options = {
+    mode = "tabs", -- set to "tabs" to only show tabpages instead
+  },
+}
+
 -- lualine config
 require("lualine").setup {
   sections = {
@@ -326,13 +311,17 @@ require("lualine").setup {
 
 -- trouble config
 require("trouble").setup {
-  padding = false,
-  height = 6,
-  icons = true,
-  -- auto_open = true, -- automatically open the list when you have diagnostics
-  -- auto_close = true, -- automatically close the list when you have no diagnostics
+  modes = {
+    diagnostics = {
+      auto_open = false,
+      win = {
+        size = 7,
+      },
+    },
+  },
 }
-vim.keymap.set("n", "TT", "<cmd>TroubleToggle<cr>", { silent = true })
+vim.keymap.set("n", "TT", "<cmd>Trouble diagnostics toggle<cr>", { silent = true })
+vim.keymap.set("n", "TO", "<cmd>Trouble symbols toggle focus=false<cr>", { silent = true })
 
 -- noice config
 require("noice").setup({
@@ -378,9 +367,6 @@ vim.keymap.set("n", "fh", "<cmd>Telescope help_tags<cr>", { silent = true })
 -- color code visible, indent visible
 require("colorizer").setup()
 require("ibl").setup()
-
--- vim-go and prettier
--- TODO 不要かもしれない
-vim.g["prettier#autoformat"] = 1
-vim.g["prettier#autoformat_require_pragma"] = 0
-vim.g["prettier#config#print_width"] = 120
+require("notify").setup({
+  timeout = 100,
+})

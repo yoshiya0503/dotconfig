@@ -1,0 +1,71 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `zed: Open Default Settings` command
+// from the command palette
+{
+  "vim_mode": true,
+  "ui_font_size": 13,
+  "buffer_font_size": 12,
+  "buffer_font_family": "FiraCode Nerd Font",
+  "uh_font_family": "FiraCode Nerd Font",
+  "current_line_highlight": "none",
+  "theme": {
+    "mode": "system",
+    "light": "Tokyo Night Light",
+    "dark": "Tokyo Night Storm"
+  },
+  "scrollbar": {
+    "show": "never"
+  },
+  "project_panel": {
+    "scrollbar": {
+      "show": "never"
+    },
+    "button": true,
+    "default_width": 200,
+    "indent_size": 20
+  },
+  "outline_panel": {
+    "dock": "right",
+    "default_width": 200
+  },
+  "tabs": {
+    "file_icons": true
+  },
+  "gutter": {
+    "line_numbers": false
+  },
+  "indent_guides": {
+    "line_width": 2,
+    "active_line_width": 2
+  },
+  "buffer_line_height": {
+    "custom": 1.8
+  },
+  "experimental.theme_overrides": {
+    "background.appearance": "blurred",
+    "background": "#24283b70",
+    "editor.background": "#24283b70",
+    "editor.gutter.background": "#24283b70",
+    "tab_bar.background": "#24283b70",
+    "terminal.background": "#24283b00",
+    "toolbar.background": "#24283b70",
+    "tab.active_background": "#24283b25",
+    "tab.inactive_background": "#24283b70",
+    "status_bar.background": "#24283bea",
+    "title_bar.background": "#24283bea",
+    "panel.background": "#24283b70",
+    //"border.variant": "#24283b90",
+    //"border.transparent": "#24283b90",
+    //"border.focused": "#FFFFFFFF",
+    //"border.selected": "#24283b99",
+    //"pane_group.border": "#24283b99",
+    //"pane.focused_border": "#24283b99",
+    "scrollbar.track.border": "#24283b99",
+    "editor.active_line.background": "#24283b70"
+  }
+}
