@@ -15,6 +15,9 @@ if status is-interactive
   alias kube=kubectl
   alias tilt=/opt/homebrew/bin/tilt
   alias tlt=/opt/homebrew/bin/tilt
+  alias ls=/opt/homebrew/bin/eza
+  alias cat=/opt/homebrew/bin/bat
+  alias grep=/opt/homebrew/bin/rg
 
   eval pyenv init --path | source
   eval rbenv init - | source

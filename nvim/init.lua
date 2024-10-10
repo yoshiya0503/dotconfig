@@ -19,7 +19,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({ { "neovim/nvim-lspconfig" },                                        -- LSP
   { "williamboman/mason.nvim" },                                                            -- LSP package manager
   { "williamboman/mason-lspconfig.nvim" },                                                  -- LSP config bridge
-  { "glepnir/lspsaga.nvim" },                                                               -- LSP UI/Code outline
   { "hrsh7th/nvim-cmp" },                                                                   -- completion LSP
   { "hrsh7th/cmp-nvim-lsp" },                                                               -- completion LSP source
   { "hrsh7th/cmp-buffer" },                                                                 -- completion LSP file buffer
@@ -33,14 +32,16 @@ require("lazy").setup({ { "neovim/nvim-lspconfig" },                            
   { "kyazdani42/nvim-web-devicons" },                                                       -- icon
   { "kyazdani42/nvim-tree.lua" },                                                           -- filer
   { 'akinsho/bufferline.nvim' },                                                            -- tab buffer integration
+  { 'Bekaboo/dropbar.nvim' },                                                               -- breadcrumbs
+  { "lukas-reineke/indent-blankline.nvim" },                                                -- show indent
+  { "nvim-lualine/lualine.nvim" },                                                          -- status line
   { "rcarriga/nvim-notify",               dependencies = { { "MunifTanjim/nui.nvim" } } },  -- notification
   { "folke/trouble.nvim" },                                                                 -- trouble shooting
   { "folke/noice.nvim" },                                                                   -- message and cmd
   { "michaelb/sniprun",                   build = "sh install.sh" },                        -- quick code run
-  { "nvim-lualine/lualine.nvim" },                                                          -- status line
   { "nvim-telescope/telescope.nvim",      dependencies = { { "nvim-lua/plenary.nvim" } } }, -- fuzzy omni search
-  { "lukas-reineke/indent-blankline.nvim" },                                                -- show indent
   { "norcalli/nvim-colorizer.lua" },                                                        -- color code visibility
+  { "windwp/nvim-autopairs", },                                                             -- surrounding pairs
   { "editorconfig/editorconfig-vim" },                                                      -- editor config
   { "folke/tokyonight.nvim" },                                                              -- colorscheme
 })
@@ -52,10 +53,12 @@ vim.o.expandtab = true   -- tab to space
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
-vim.o.cindent = true                           -- c interigent indent
-vim.o.smartindent = true                       -- smart indent system
-vim.o.showmatch = true                         -- show ()[]{}match
-vim.o.smartcase = true                         -- search smart case
+vim.o.cindent = true     -- c interigent indent
+vim.o.smartindent = true -- smart indent system
+vim.o.showmatch = true   -- show ()[]{}match
+vim.o.smartcase = true   -- search smart case
+-- vim.opt.mouse = ""
+vim.opt.clipboard:append { "unnamedplus" }
 vim.opt.fillchars = { vert = " ", eob = " ", } -- vert sign
 vim.diagnostic.config({
   signs = {
@@ -115,19 +118,9 @@ vim.cmd [[colorscheme tokyonight]]
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function(args)
     vim.lsp.buf.format()
-    local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
-    params.context = { only = { "source.organizeImports" } }
-
-    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 100)
-    for _, res in pairs(result or {}) do
-      for _, r in pairs(res.result or {}) do
-        if r.edit then
-          vim.lsp.util.apply_workspace_edit(r.edit, vim.lsp.util._get_offset_encoding())
-        else
-          vim.lsp.buf.execute_command(r.command)
-        end
-      end
-    end
+    vim.lsp.buf.code_action { context = { only = { 'quickfix' } }, apply = true }
+    vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
+    vim.lsp.buf.code_action { context = { only = { 'source.fixAll' } }, apply = true }
   end,
 })
 
@@ -144,44 +137,24 @@ require("mason").setup({
 })
 
 -- mason lsp config
-require("mason-lspconfig").setup_handlers({ function(server_name)
-  require("lspconfig")[server_name].setup {
-    capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    settings = {
-      Lua = { diagnostics = { globals = { 'vim' } } }
+require("mason-lspconfig").setup_handlers({
+  function(server_name)
+    require("lspconfig")[server_name].setup {
+      capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+      settings = {
+        -- init.luaを設定しているときに警告が出る
+        Lua = { diagnostics = { globals = { 'vim' } } }
+      }
     }
-  }
-end })
-
--- lspsaga config
-require("lspsaga").setup({
-  max_preview_lines = 50,
-  finder = {
-    keys = {
-      vsplit = "v",
-      split = "s",
-    },
-  },
-  outline = {
-    win_position = "right",
-    win_width = 30,
-  },
-  ui = {
-    border = "rounded",
-    winblend = 0,
-  }
+  end
 })
-vim.keymap.set("n", "cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
--- vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
+
+-- dropbar config
+vim.ui.select = require('dropbar.utils.menu').select
 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { silent = true })
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { silent = true })
+vim.keymap.set('n', 'gk', vim.diagnostic.open_float, { silent = true })
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { silent = true })
-vim.keymap.set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>", { silent = true })
-vim.keymap.set("n", "gs", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
--- vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
--- vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-vim.keymap.set("n", "<C-O>", "<cmd>Lspsaga outline<CR>", { silent = true })
 
 -- completion config / comp, luanip, lspkind
 local cmp = require "cmp"
@@ -322,6 +295,7 @@ require("trouble").setup {
 }
 vim.keymap.set("n", "TT", "<cmd>Trouble diagnostics toggle<cr>", { silent = true })
 vim.keymap.set("n", "TO", "<cmd>Trouble symbols toggle focus=false<cr>", { silent = true })
+vim.keymap.set("n", "TD", "<cmd>Trouble lsp toggle focus=false win.position=<cr>", { silent = true })
 
 -- noice config
 require("noice").setup({
@@ -348,7 +322,7 @@ require("noice").setup({
     command_palette = true,       -- position the cmdline and popupmenu together
     long_message_to_split = true, -- long messages will be sent to a split
     inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false,       -- add a border to hover docs and signature help
+    lsp_doc_border = true,        -- add a border to hover docs and signature help
   },
 })
 
@@ -366,7 +340,6 @@ vim.keymap.set("n", "fh", "<cmd>Telescope help_tags<cr>", { silent = true })
 -- utitily config
 -- color code visible, indent visible
 require("colorizer").setup()
+require("nvim-autopairs").setup()
 require("ibl").setup()
-require("notify").setup({
-  timeout = 100,
-})
+require("notify").setup({ timeout = 100 })

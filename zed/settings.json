@@ -16,10 +16,13 @@
   "theme": {
     "mode": "system",
     "light": "Tokyo Night Light",
-    "dark": "Tokyo Night Storm"
+    "dark": "Colorizer"
   },
   "scrollbar": {
     "show": "never"
+  },
+  "git": {
+    "git_gutter": "hide"
   },
   "project_panel": {
     "scrollbar": {
@@ -34,7 +37,13 @@
     "default_width": 200
   },
   "tabs": {
-    "file_icons": true
+    "file_icons": true,
+    "git_status": true
+  },
+  "preview_tabs": {
+    // 沢山開きがちなので、プレビュータブで開く
+    "enable_preview_from_file_finder": true,
+    "enable_preview_from_quick_open": true
   },
   "gutter": {
     "line_numbers": false
@@ -46,26 +55,34 @@
   "buffer_line_height": {
     "custom": 1.8
   },
+  "collaboration_panel": {
+    "button": false
+  },
+  "chat_panel": {
+    "button": false
+  },
+  "notification_panel": {
+    "button": false
+  },
+  "show_call_status_icon": false,
   "experimental.theme_overrides": {
     "background.appearance": "blurred",
-    "background": "#24283b70",
-    "editor.background": "#24283b70",
-    "editor.gutter.background": "#24283b70",
-    "tab_bar.background": "#24283b70",
-    "terminal.background": "#24283b00",
-    "toolbar.background": "#24283b70",
-    "tab.active_background": "#24283b25",
-    "tab.inactive_background": "#24283b70",
-    "status_bar.background": "#24283bea",
-    "title_bar.background": "#24283bea",
-    "panel.background": "#24283b70",
-    //"border.variant": "#24283b90",
-    //"border.transparent": "#24283b90",
-    //"border.focused": "#FFFFFFFF",
-    //"border.selected": "#24283b99",
-    //"pane_group.border": "#24283b99",
-    //"pane.focused_border": "#24283b99",
-    "scrollbar.track.border": "#24283b99",
-    "editor.active_line.background": "#24283b70"
+    "background": "#24283bCF",
+    "status_bar.background": "#24283bCF",
+    "title_bar.background": "#24283bCF",
+    "panel.background": "#00000000",
+    "editor.background": "#00000000",
+    "editor.gutter.background": "#00000000",
+    "tab_bar.background": "#00000000",
+    "terminal.background": "#00000000",
+    "toolbar.background": "#00000000",
+    "tab.active_background": "#00000000",
+    "tab.inactive_background": "#00000000",
+    "border": "#00000000",
+    "border.variant": "#24283b00",
+    "pane_group.border": "#24283b00",
+    "pane.focused_border": "#24283b00",
+    "scrollbar.track.border": "#24283b00",
+    "editor.active_line.background": "#24283b00"
   }
 }
