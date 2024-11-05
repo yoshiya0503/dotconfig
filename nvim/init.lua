@@ -1,6 +1,6 @@
 -- @title nvim/init.vim
 -- @author Yoshiya Ito
--- @version 10.0.0
+-- @version 11.0.0
 
 -- lazy config
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -36,14 +36,15 @@ require("lazy").setup({ { "neovim/nvim-lspconfig" },                            
   { "lukas-reineke/indent-blankline.nvim" },                                                -- show indent
   { "nvim-lualine/lualine.nvim" },                                                          -- status line
   { "rcarriga/nvim-notify",               dependencies = { { "MunifTanjim/nui.nvim" } } },  -- notification
-  { "folke/trouble.nvim" },                                                                 -- trouble shooting
+  { "folke/trouble.nvim", },                                                                -- trouble shooting
   { "folke/noice.nvim" },                                                                   -- message and cmd
   { "michaelb/sniprun",                   build = "sh install.sh" },                        -- quick code run
   { "nvim-telescope/telescope.nvim",      dependencies = { { "nvim-lua/plenary.nvim" } } }, -- fuzzy omni search
+  { "lewis6991/gitsigns.nvim" },                                                            -- gitsigns
   { "norcalli/nvim-colorizer.lua" },                                                        -- color code visibility
   { "windwp/nvim-autopairs", },                                                             -- surrounding pairs
-  { "editorconfig/editorconfig-vim" },                                                      -- editor config
   { "folke/tokyonight.nvim" },                                                              -- colorscheme
+  { "akinsho/toggleterm.nvim" },                                                            -- terminal
 })
 
 -- vim grobal config
@@ -57,9 +58,21 @@ vim.o.cindent = true     -- c interigent indent
 vim.o.smartindent = true -- smart indent system
 vim.o.showmatch = true   -- show ()[]{}match
 vim.o.smartcase = true   -- search smart case
+vim.opt.swapfile = false -- no swapfile
 -- vim.opt.mouse = ""
 vim.opt.clipboard:append { "unnamedplus" }
-vim.opt.fillchars = { vert = " ", eob = " ", } -- vert sign
+-- signs
+vim.opt.fillchars = {
+  horiz     = " ",
+  horizup   = " ",
+  horizdown = " ",
+  vert      = " ",
+  vertleft  = " ",
+  vertright = " ",
+  verthoriz = " ",
+  eob       = " ",
+}
+
 vim.diagnostic.config({
   signs = {
     text = {
@@ -71,28 +84,16 @@ vim.diagnostic.config({
   },
 })
 
--- remove traling white space
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*" },
-  command = [[%s/\s\+$//ge]],
-})
-
 -- key remap
 vim.keymap.set("i", "jj", "<esc>", { silent = true })
 vim.keymap.set("n", "s", "<Nop>", { silent = true })
 vim.keymap.set("n", "ss", ":<C-u>sp<CR>", { silent = true })
 vim.keymap.set("n", "sv", ":<C-u>vs<CR>", { silent = true })
 vim.keymap.set("n", "sq", ":<C-u>q<CR>", { silent = true })
-vim.keymap.set("n", "sj", "<C-w>j", { silent = true })
-vim.keymap.set("n", "sk", "<C-w>k", { silent = true })
-vim.keymap.set("n", "sl", "<C-w>l", { silent = true })
-vim.keymap.set("n", "sh", "<C-w>h", { silent = true })
-vim.keymap.set("n", "sJ", "<C-w>J", { silent = true })
-vim.keymap.set("n", "sK", "<C-w>K", { silent = true })
-vim.keymap.set("n", "sL", "<C-w>L", { silent = true })
-vim.keymap.set("n", "sH", "<C-w>H", { silent = true })
-
--- tab keymap
+vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true })
+vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true })
 vim.keymap.set("n", "tt", ":<C-u>tabnew<CR><C-u>NvimTreeOpen<CR>", { silent = true })
 vim.keymap.set("n", "tl", "gt", { silent = true })
 vim.keymap.set("n", "th", "gT", { silent = true })
@@ -105,22 +106,17 @@ require("tokyonight").setup({
     sidebars = "transparent",
     floats = "transparent",
   },
-  on_highlights = function(hl, colors)
-    hl.CursorLine = {
-      fg = colors.yellow
-    }
-  end
 })
 vim.cmd [[colorscheme tokyonight]]
 
 -- callback
 -- vim.api.nvim_create_autocmd({ "BufWritePre", "LspAttach" }, {
 vim.api.nvim_create_autocmd("BufWritePre", {
-  callback = function(args)
+  callback = function()
+    vim.cmd([[%s/\s\+$//ge]]) -- remove trailing white space
     vim.lsp.buf.format()
-    vim.lsp.buf.code_action { context = { only = { 'quickfix' } }, apply = true }
-    vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
     vim.lsp.buf.code_action { context = { only = { 'source.fixAll' } }, apply = true }
+    -- vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
   end,
 })
 
@@ -142,8 +138,7 @@ require("mason-lspconfig").setup_handlers({
     require("lspconfig")[server_name].setup {
       capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
       settings = {
-        -- init.luaを設定しているときに警告が出る
-        Lua = { diagnostics = { globals = { 'vim' } } }
+        Lua = { diagnostics = { globals = { 'vim' } } }, -- init.luaを設定しているときに警告が出る
       }
     }
   end
@@ -151,10 +146,12 @@ require("mason-lspconfig").setup_handlers({
 
 -- dropbar config
 vim.ui.select = require('dropbar.utils.menu').select
-vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { silent = true })
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { silent = true })
-vim.keymap.set('n', 'gk', vim.diagnostic.open_float, { silent = true })
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { silent = true })
+vim.keymap.set('n', 'gh', vim.lsp.buf.signature_help, { silent = true })
+vim.keymap.set('n', 'gk', vim.diagnostic.open_float, { silent = true })
+vim.keymap.set('n', 'gf', function() vim.lsp.buf.code_action({ only = { "fixAll" } }) end, { silent = true })
+vim.keymap.set('n', 'gi', function() vim.lsp.buf.code_action({ only = { "organizeImports" } }) end, { silent = true })
 
 -- completion config / comp, luanip, lspkind
 local cmp = require "cmp"
@@ -212,12 +209,19 @@ cmp.setup.cmdline("/", {
     { name = "buffer" }
   }
 })
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
 -- nvim-treesitter config
 require("nvim-treesitter.configs").setup {
   highlight = {
     enable = true,
-    disable = { "html", "css" },
   },
   indent = {
     enable = true,
@@ -269,21 +273,15 @@ require("bufferline").setup {
 }
 
 -- lualine config
-require("lualine").setup {
-  sections = {
-    lualine_c = {
-      {
-        "filename",
-        symbols = {
-          readonly = "[]"
-        }
-      }
-    },
-  },
-}
+require("evil_line")
 
 -- trouble config
 require("trouble").setup {
+  win = {
+    wo = {
+      fillchars = ""
+    }
+  },
   modes = {
     diagnostics = {
       auto_open = false,
@@ -299,11 +297,27 @@ vim.keymap.set("n", "TD", "<cmd>Trouble lsp toggle focus=false win.position=<cr>
 
 -- noice config
 require("noice").setup({
+  routes = {
+    {
+      filter = {
+        event = "notify",
+        find = "available",
+      },
+      opts = { skip = true },
+    },
+    {
+      view = "mini",
+      filter = {
+        event = "msg_show",
+        find = "書込み",
+      },
+    },
+  },
   cmdline = {
     format = {
       search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
       search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
-    }
+    },
   },
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -326,6 +340,23 @@ require("noice").setup({
   },
 })
 
+-- toggleterm config
+require("toggleterm").setup {
+  direction = 'float',
+  float_opts = {
+    border = 'curved'
+  }
+}
+
+function _G.set_terminal_keymaps()
+  local opts = { buffer = 0 }
+  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-t>', "<cmd>ToggleTerm<cr>", opts)
+end
+
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+vim.keymap.set('n', '<C-t>', "<cmd>ToggleTerm<cr>", opts)
+
 -- sniprun config
 require("sniprun").setup({ display = { "NvimNotify" }, })
 vim.keymap.set("v", "f", "<plug>SnipRun<cr>", { silent = true })
@@ -343,3 +374,4 @@ require("colorizer").setup()
 require("nvim-autopairs").setup()
 require("ibl").setup()
 require("notify").setup({ timeout = 100 })
+require("gitsigns").setup()

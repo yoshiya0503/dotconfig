@@ -1,0 +1,10 @@
+{
+    "diagnostics.disable": [
+        "undefined-global",
+        "undefined-field"
+    ],
+    "diagnostics.globals": [
+        "vim",
+        "pp"
+    ]
+}

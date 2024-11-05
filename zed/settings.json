@@ -64,6 +64,10 @@
   "notification_panel": {
     "button": false
   },
+  "toolbar": {
+    "selections_menu": false,
+    "quick_actions": false
+  },
   "show_call_status_icon": false,
   "experimental.theme_overrides": {
     "background.appearance": "blurred",

@@ -2,7 +2,8 @@ if status is-interactive
   # Commands to run in interactive sessions can go here
   eval (/opt/homebrew/bin/brew shellenv)
 
-  set -x PYENV_ROOT $HOME/.pyenv
+  # set -x PYENV_ROOT $HOME/.pyenv
+  source $HOME/.venv/bin/activate.fish
   set -x N_PREFIX $HOME/.n
   set -x RUSTUP_HOME $HOME/.rustup
   set -x CARGO_HOME $HOME/.cargo
@@ -19,7 +20,7 @@ if status is-interactive
   alias cat=/opt/homebrew/bin/bat
   alias grep=/opt/homebrew/bin/rg
 
-  eval pyenv init --path | source
+  # eval pyenv init --path | source
   eval rbenv init - | source
   #eval /opt/homebrew/share/google-cloud-sdk/path.fish.inc | source
 
