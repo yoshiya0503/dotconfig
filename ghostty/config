@@ -4,13 +4,15 @@ theme = "tokyonight-storm"
 
 # Font Settings
 font-family = "Monaspace Radon Frozen"
+#font-family = "Monaspace Radon Frozen"
 #font-family = "MonaspiceRn Nerd Font Propo"
 font-feature = -dlig
 font-size = 12
 #font-thicken = true
 
 # Window Settings
-macos-titlebar-style = "tabs"
+macos-titlebar-style = "transparent"
+#macos-titlebar-style = "tabs"
 # "transparent" "hidden"
 window-padding-balance = true
 window-padding-x = 8
@@ -19,6 +21,8 @@ background-blur-radius = 70
 background-opacity = 0.80
 adjust-cell-width = -10%
 adjust-cell-height = 30%
+cursor-style = block
+cursor-style-blink = true
 
 
 # TERM

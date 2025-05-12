@@ -58,7 +58,9 @@ vim.o.cindent = true     -- c interigent indent
 vim.o.smartindent = true -- smart indent system
 vim.o.showmatch = true   -- show ()[]{}match
 vim.o.smartcase = true   -- search smart case
-vim.opt.swapfile = false -- no swapfile
+vim.o.swapfile = false   -- no swapfile
+vim.o.laststatus = 3
+
 -- vim.opt.mouse = ""
 vim.opt.clipboard:append { "unnamedplus" }
 -- signs
@@ -133,16 +135,9 @@ require("mason").setup({
 })
 
 -- mason lsp config
-require("mason-lspconfig").setup_handlers({
-  function(server_name)
-    require("lspconfig")[server_name].setup {
-      capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-      settings = {
-        Lua = { diagnostics = { globals = { 'vim' } } }, -- init.luaを設定しているときに警告が出る
-      }
-    }
-  end
-})
+require("mason-lspconfig").setup({ automatic_enable = true })
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+vim.lsp.config("*", { capabilities = capabilities })
 
 -- dropbar config
 vim.ui.select = require('dropbar.utils.menu').select
@@ -270,6 +265,13 @@ require("bufferline").setup {
   options = {
     mode = "tabs", -- set to "tabs" to only show tabpages instead
   },
+  highlights = {
+    fill = { bg = 'none' },
+    tab = { bg = 'none' },
+    background = { bg = 'none' },
+    buffer_visible = { bg = 'none' },
+    buffer_selected = { bg = 'none' }
+  }
 }
 
 -- lualine config

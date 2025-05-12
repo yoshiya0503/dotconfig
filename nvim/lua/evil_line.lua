@@ -6,7 +6,7 @@ local lualine = require('lualine')
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
-  bg       = '',
+  bg       = 'none',
   fg       = '#bbc2cf',
   yellow   = '#ECBE7B',
   cyan     = '#008080',
@@ -190,4 +190,4 @@ ins_right {
 }
 
 lualine.setup(config)
-vim.o.laststatus = 3
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'none' })
